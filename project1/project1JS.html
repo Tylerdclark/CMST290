@@ -19,27 +19,36 @@
 </head>
 <body>
 <script>
-var
+
+//TODO: Modify the speed of the ball.
+//TODO: Modify the size of the ball.
+//TODO: Modify the height of the canvas.
+//TODO: Modify the width of the canvas.
+//TODO: Modify the speed of the player's paddle. (Note: The player's paddle is located on the left side of the canvas)
+//TODO: Modify the speed of the AI's (computer's) paddle. (Note: the AI's paddle is located on the right side of the canvas)
+
+
 /**
  * Constants
  */
-WIDTH  = 700,
-HEIGHT = 600,
-pi = Math.PI,
-UpArrow   = 38,
-DownArrow = 40,
+const WIDTH  = 700;
+const HEIGHT = 600;
+const pi = Math.PI;
+const UpArrow   = 38;
+const DownArrow = 40;
+
 /**
  * Game elements
  */
-canvas,
+let canvas,
 ctx,
-keystate,
+keystate;
 /**
  * The player paddle
  * 
  * @type {Object}
  */
-player = {
+const player = {
 	x: null,
 	y: null,
 	width:  20,
@@ -59,13 +68,13 @@ player = {
 	draw: function() {
 		ctx.fillRect(this.x, this.y, this.width, this.height);
 	}
-},
+}
 /**
  * The ai paddle
  * 
  * @type {Object}
  */
-ai = {
+const ai = {
 	x: null,
 	y: null,
 	width:  20,
@@ -75,7 +84,7 @@ ai = {
 	 */
 	update: function() {
 		// calculate ideal position
-		var desty = ball.y - (this.height - ball.side)*0.5;
+		const desty = ball.y - (this.height - ball.side)*0.5;
 		// ease the movement towards the ideal position
 		this.y += (desty - this.y) * 0.1;
 		// keep the paddle inside of the canvas
@@ -87,13 +96,13 @@ ai = {
 	draw: function() {
 		ctx.fillRect(this.x, this.y, this.width, this.height);
 	}
-},
+}
 /**	
  * The ball object
  * 
  * @type {Object}
  */
-ball = {
+const ball = {
 	x:   null,
 	y:   null,
 	vel: null,
@@ -135,8 +144,8 @@ ball = {
 			// mirror the y velocity
 			this.vel.y *= -1;
 		}
-		// helper function to check intesectiont between two
-		// axis aligned bounding boxex (AABB)
+		// helper function to check intesection between two
+		// axis aligned bounding box (AABB)
 		var AABBIntersect = function(ax, ay, aw, ah, bx, by, bw, bh) {
 			return ax < bx+bw && ay < by+bh && bx < ax+aw && by < ay+ah;
 		};
@@ -196,7 +205,7 @@ function main() {
 	window.requestAnimationFrame(loop, canvas);
 }
 /**
- * Initatite game objects and set start positions
+ * Initiate game objects and set start positions
  */
 function init() {
 	player.x = player.width;
