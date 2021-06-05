@@ -36,18 +36,26 @@
 /**
  * Constants
  */
-const WIDTH  = 700;
-const HEIGHT = 600;
-const pi = Math.PI;
-const UpArrow   = 38;
-const DownArrow = 40;
+const WIDTH  = 550;
+const HEIGHT = 550;
+const PI = Math.PI;
+const UP_ARROW   = 38;
+const DOWN_ARROW = 40;
+const PLAYER_SPEED = 10;
+const BALL_SPEED = 5;
+const BALL_SIDE = 35;
 
 /**
  * Game elements
  */
 let canvas,
+canvasDiv,
+scoreDiv,
+score,
+pauseBtn,
 ctx,
-keystate;
+keystate,
+isPaused;
 /**
  * The player paddle
  * 
@@ -111,8 +119,8 @@ const ball = {
 	x:   null,
 	y:   null,
 	vel: null,
-	side:  20,
-	speed: 12,
+	side:  BALL_SIDE,
+	speed: BALL_SPEED,
 	/**
 	 * Serves the ball towards the specified side
 	 * 
@@ -121,12 +129,12 @@ const ball = {
 	 */
 	serve: function(side) {
 		// set the x and y position
-		var r = Math.random();
+		const r = Math.random();
 		this.x = side===1 ? player.x+player.width : ai.x - this.side;
 		this.y = (HEIGHT - this.side)*r;
 		// calculate out-angle, higher/lower on the y-axis =>
 		// steeper angle
-		var phi = 0.1*pi*(1 - 2*r);
+		const phi = 0.1*PI*(1 - 2*r);
 		// set velocity direction and magnitude
 		this.vel = {
 			x: side*this.speed*Math.cos(phi),
