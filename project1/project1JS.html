@@ -186,16 +186,46 @@ const ball = {
 		ctx.fillRect(this.x, this.y, this.side, this.side);
 	}
 };
+
+const scoreBoard = {
+	playerScore : 0,
+	enemyScore : 0,
+	givePlayerPoint : function () {
+		this.playerScore += 1;
+	},
+	giveEnemyPoint : function () {
+		this.enemyScore += 1;
+	},
+	draw : function () {
+		score.innerText = `Score: ${this.playerScore} | ${this.enemyScore}`;
+		canvasDiv.appendChild(canvas);
+	}
+}
 /**
  * Starts the game
  */
 function main() {
 	// create, initiate and append game canvas
+	canvasDiv = document.createElement("div");
 	canvas = document.createElement("canvas");
+	// Also the scoreboard
+	scoreDiv = document.createElement("div");
+	score = document.createElement("h2");
+	// Also the pause and start button
+	pauseBtn = document.createElement("button");
+	pauseBtn.innerText = "Play / Pause"
+	pauseBtn.addEventListener("click", () => {
+		isPaused = !isPaused;
+	})
 	canvas.width = WIDTH;
 	canvas.height = HEIGHT;
 	ctx = canvas.getContext("2d");
-	document.body.appendChild(canvas);
+	scoreDiv.appendChild(score);
+	document.body.appendChild(pauseBtn);
+	document.body.appendChild(scoreDiv);
+	document.body.appendChild(canvasDiv);
+
+
 	keystate = {};
 	// keep track of keyboard presses
 	document.addEventListener("keydown", function(evt) {
