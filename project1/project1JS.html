@@ -62,8 +62,8 @@ const player = {
 	 * Update the position depending on pressed keys
 	 */
 	update: function() {
-		if (keystate[UpArrow]) this.y -= 7;
-		if (keystate[DownArrow]) this.y += 7;
+		if (keystate[UP_ARROW]) this.y -= PLAYER_SPEED;
+		if (keystate[DOWN_ARROW]) this.y += PLAYER_SPEED;
 		// keep the paddle inside of the canvas
 		this.y = Math.max(Math.min(this.y, HEIGHT - this.height), 0);
 	},
@@ -89,9 +89,9 @@ const ai = {
 	 */
 	update: function() {
 		// calculate ideal position
-		const desty = ball.y - (this.height - ball.side)*0.5;
-		// ease the movement towards the ideal position
-		this.y += (desty - this.y) * 0.1;
+		const desty = ball.y - (this.height - ball.side) * 0.5;
+		//vv CHANGE THE SPEED OF THE AI PADDLE HERE vv
+		this.y += (desty - this.y) * Math.random(); //somewhere between 0 and 1
 		// keep the paddle inside of the canvas
 		this.y = Math.max(Math.min(this.y, HEIGHT - this.height), 0);
 	},
@@ -144,28 +144,27 @@ const ball = {
 		if (0 > this.y || this.y+this.side > HEIGHT) {
 			// calculate and add the right offset, i.e. how far
 			// inside of the canvas the ball is
-			var offset = this.vel.y < 0 ? 0 - this.y : HEIGHT - (this.y+this.side);
+			const offset = this.vel.y < 0 ? 0 - this.y : HEIGHT - (this.y+this.side);
 			this.y += 2*offset;
 			// mirror the y velocity
 			this.vel.y *= -1;
 		}
 		// helper function to check intesection between two
 		// axis aligned bounding box (AABB)
-		var AABBIntersect = function(ax, ay, aw, ah, bx, by, bw, bh) {
+		const AABBIntersect = function(ax, ay, aw, ah, bx, by, bw, bh) {
 			return ax < bx+bw && ay < by+bh && bx < ax+aw && by < ay+ah;
 		};
-		// check againts target paddle to check collision in x
-		// direction
-		var pdle = this.vel.x < 0 ? player : ai;
+		// check against target paddle to check collision in x direction
+		let pdle = this.vel.x < 0 ? player : ai;
 		if (AABBIntersect(pdle.x, pdle.y, pdle.width, pdle.height,
 				this.x, this.y, this.side, this.side)
 		) {	
 			// set the x position and calculate reflection angle
 			this.x = pdle===player ? player.x+player.width : ai.x - this.side;
-			var n = (this.y+this.side - pdle.y)/(pdle.height+this.side);
-			var phi = 0.25*pi*(2*n - 1); // pi/4 = 45
+			const n = (this.y+this.side - pdle.y)/(pdle.height+this.side);
+			const phi = 0.25*PI*(2*n - 1); // pi/4 = 45
 			// calculate smash value and update velocity
-			var smash = Math.abs(phi) > 0.2*pi ? 1.5 : 1;
+			const smash = Math.abs(phi) > 0.2*PI ? 1.5 : 1;
 			this.vel.x = smash*(pdle===player ? 1 : -1)*this.speed*Math.cos(phi);
 			this.vel.y = smash*this.speed*Math.sin(phi);
 		}
@@ -173,6 +172,11 @@ const ball = {
 		// x direction
 		if (0 > this.x+this.side || this.x > WIDTH) {
 			this.serve(pdle===player ? 1 : -1);
+			if (pdle === player){
+				scoreBoard.giveEnemyPoint();
+			}else{
+				scoreBoard.givePlayerPoint();
+			}
 		}
 	},
 	/**
@@ -202,7 +206,7 @@ function main() {
 	});
 	init(); // initiate game objects
 	// game loop function
-	var loop = function() {
+	const loop = function() {
 		update();
 		draw();
 		window.requestAnimationFrame(loop, canvas);
@@ -223,9 +227,11 @@ function init() {
  * Update all game objects
  */
 function update() {
-	ball.update();
-	player.update();
-	ai.update();
+	if(!isPaused){
+		ball.update();
+		player.update();
+		ai.update();
+	}
 }
 /**
  * Clear canvas and draw all game objects and net
@@ -233,15 +239,16 @@ function update() {
 function draw() {
 	ctx.fillRect(0, 0, WIDTH, HEIGHT);
 	ctx.save();
-	ctx.fillStyle = "#fff";
+	ctx.fillStyle = "#a40acf";
 	ball.draw();
 	player.draw();
 	ai.draw();
+	scoreBoard.draw();
 	// draw the net
-	var w = 4;
-	var x = (WIDTH - w)*0.5;
-	var y = 0;
-	var step = HEIGHT/20; // how many net segments
+	const w = 4;
+	const x = (WIDTH - w)*0.5;
+	let y = 0;
+	const step = HEIGHT/20; // how many net segments
 	while (y < HEIGHT) {
 		ctx.fillRect(x, y+step*0.25, w, step*0.5);
 		y += step;
