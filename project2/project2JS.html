@@ -29,7 +29,7 @@
             padding: 0;
         }
         .menu li {
-            padding: 8px;
+            padding: 5px; /* Changed here! */
             margin-bottom: 7px;
             background-color :#33b5e5;
             color: #ffffff;
@@ -43,7 +43,7 @@
             padding: 15px;
             color: #ffffff;
             text-align: center;
-            font-size: 14px;
+            font-size: 12px; /* Changed here! */
             box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
         }
         .footer {
@@ -52,6 +52,9 @@
             text-align: center;
             font-size: 12px;
             padding: 15px;
+        } /* Changed here! */
+        .right {
+            float: right;
         }
         /* For desktop: */
         .col-1 {width: 8.33%;}
@@ -67,11 +70,19 @@
         .col-11 {width: 91.66%;}
         .col-12 {width: 100%;}
 
-        @media only screen and (max-width: 768px) {
+        @media only screen and (max-width: 800px) { /* Changed here! */
             /* For mobile phones: */
             [class*="col-"] {
                 width: 100%;
             }
+            body { /* Changed here! */
+                background-color: lightblue;
+            }
+        }
+
+        img { /* Changed here! */
+            width: 100%;
+            height: auto;
         }
     </style>
     <title>Project 2</title>
@@ -79,6 +90,26 @@
 <body>
 <div class="header">
     <h1>Tyler Clark</h1> <!-- Changed here! -->
+</div>
+<div class="row"> <!-- Changed here! -->
+    <div class="col-3"> <!-- Changed here! -->
+        <img src="tyler-pic.JPG" alt="A pic of tyler">
+    </div>
+    <div class="col-6">
+        <h1>Career Objective</h1> <!-- Changed here! -->
+        <p>Junior Software Developer with 2 years of experience in Computer Engineering seeking challenging and
+            educational opportunities to grow as a professional.</p><!-- Changed here! -->
+    </div>
+    <div class="col-3 right">
+        <div class="aside">
+            <h2>University of Maryland Global Campus</h2> <!-- Changed here! -->
+            <p>Bachelors of Science, Computer Science, 2021</p> <!-- Changed here! -->
+            <p>GPA: 3.9 </p> <!-- Changed here! -->
+            <h2>Le Grand High School, CA</h2> <!-- Changed here! -->
+            <p>General Education, Computer Club</p> <!-- Changed here! -->
+            <p>GPA: 3.5</p> <!-- Changed here! -->
+        </div>
+    </div>
 </div>
 <div class="row">
     <div class="col-3 menu">
@@ -91,23 +122,18 @@
             <li>Objectives</li> <!-- Changed here! -->
         </ul>
     </div>
-    <div class="col-6">
-        <h1>The City</h1>
-        <p>Chania is the capital of the Chania region on the island of Crete. The city can be divided in two parts, the old town and the modern city.</p>
-    </div>
-    <div class="col-3 right">
+    <div class="col-3 right"> <!-- Changed here! -->
         <div class="aside">
-            <h2>What?</h2>
-            <p>Chania is a city on the island of Crete.</p>
-            <h2>Where?</h2>
-            <p>Crete is a Greek island in the Mediterranean Sea.</p>
-            <h2>How?</h2>
-            <p>You can reach Chania airport from all over Europe.</p>
+            <h2 style="font-style: italic">"Tyler is hard-working and detail oriented!"</h2> <!-- Changed here! -->
+            <p>-An old boss, hopefully</p> <!-- Changed here! -->
+            <h2 style="font-style: italic">"He's very dedicated. I can't get him off the computer!"</h2> <!-- Changed here! -->
+            <p>-Alejandra, Tyler's wife</p> <!-- Changed here! -->
         </div>
     </div>
 </div>
+
 <div class="footer">
-    <p>References available upon request.</p> <!-- Changed here! -->
+    <p>References available upon request. Copyright © 2021 | Tyler D. Clark</p> <!-- Changed here! -->
 </div>
 </body>
 </html>
